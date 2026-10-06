@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cantina IFRN - Registo de Produtos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 30px; background: #f4f4f4; padding: 15px; border-radius: 5px; width: 300px; }
+        div { margin-bottom: 10px; }
+        label { display: block; font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h1>Registo de Produtos - Cantina</h1>
+
+    <!-- Formulário de Adição de Produto -->
+    <h2>Adicionar Produto</h2>
+    <form th:action="@{/produtos/guardar}" th:object="${produto}" method="post">
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" required />
+        </div>
+        <div>
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" th:field="*{descricao}"></textarea>
+        </div>
+        <button type="submit">Adicionar Produto</button>
+    </form>
+
+    <hr>
+
+    <!-- Tabela de Listagem -->
+    <h2>Lista de Produtos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Data de Registo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="prod : ${produtos}">
+                <td th:text="${prod.id}">1</td>
+                <td th:text="${prod.nome}">Salgado</td>
+                <td th:text="${prod.descricao}">Coxinha de frango</td>
+                <td th:text="${#temporals.format(prod.dataCadastro, 'dd/MM/yyyy')}">06/10/2026</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(produtos)}">
+                <td colspan="4" style="text-align: center;">Nenhum produto registado.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
